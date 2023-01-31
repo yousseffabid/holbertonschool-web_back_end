@@ -1,15 +1,7 @@
-#!/usr/bin/env python3
-""" Deletion-resilient hypermedia pagination """
-from typing import Tuple
+
 import csv
 import math
-from typing import List
-
-
-def index_range(page: int, page_size: int) -> Tuple[int]:
-    """return start index and end index"""
-    end_index = page * page_size
-    return (end_index-page_size, end_index)
+from typing import Dict, List
 
 
 class Server:
@@ -19,6 +11,7 @@ class Server:
 
     def __init__(self):
         self.__dataset = None
+        self.__indexed_dataset = None
 
     def dataset(self) -> List[List]:
         """Cached dataset
@@ -31,42 +24,16 @@ class Server:
 
         return self.__dataset
 
-    def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """get_page"""
-        assert type(page) == int or type(page_size) == int
-        assert page > 0 or page_size > 0
-        mydataset = self.dataset()
-        indexes = index_range(page, page_size)
-        dataset_length = len(mydataset)
-
-        if indexes[0] < dataset_length and indexes[1] <= dataset_length:
-            return mydataset[indexes[0]:indexes[1]]
-
-        return []
-
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
-        """ 2. Hypermedia pagination """
-        mydataset = self.dataset()
-        data = self.get_page(page, page_size)
-        page_size = len(data)
-        total_pages = len(mydataset)
-        result = self.get_page(page + 1, page_size)
-        if result == []:
-            next_page = None
-        else:
-            next_page = page + 1
-
-        result = self.get_page(page - 1, page_size)
-        if result == []:
-            previous_page = None
-        else:
-            previous_page = page - 1
-
-        return {"page_size": page_size,
-                "page": page, "data": data,
-                "next_page": next_page,
-                "previous_page": previous_page,
-                "total_pages": total_pages}
+    def indexed_dataset(self) -> Dict[int, List]:
+        """Dataset indexed by sorting position, starting at 0
+        """
+        if self.__indexed_dataset is None:
+            dataset = self.dataset()
+            truncated_dataset = dataset[:1000]
+            self.__indexed_dataset = {
+                i: dataset[i] for i in range(len(dataset))
+            }
+        return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """get hyper functions"""
