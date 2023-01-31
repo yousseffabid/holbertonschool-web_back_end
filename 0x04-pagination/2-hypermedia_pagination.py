@@ -54,14 +54,14 @@ class Server:
         if result == []:
             next_page = None
         else:
-            next_page = result
-        
-        result = self.get_page(page + 1, page_size)
+            next_page = page + 1
+
+        result = self.get_page(page - 1, page_size)
         if result == []:
             previous_page = None
         else:
-            previous_page = result
-            
+            previous_page = page - 1
+
         return {"page_size": page_size,
                 "page": page, "data": data,
                 "next_page": next_page,
