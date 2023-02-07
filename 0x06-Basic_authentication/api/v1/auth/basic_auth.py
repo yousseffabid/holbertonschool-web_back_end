@@ -2,7 +2,7 @@
 """ basic auth module
 """
 from api.v1.auth.auth import Auth
-from typing import List, TypeVar
+from typing import List, Tuple, TypeVar
 from models.user import User
 import base64
 import binascii
@@ -32,7 +32,7 @@ class BasicAuth(Auth):
                 return None
 
     def extract_user_credentials(
-            self, decoded_base64_authorization_header: str) -> (str, str):
+            self, decoded_base64_authorization_header: str) -> Tuple(str, str):
         '''extract_user_credentials'''
         if (decoded_base64_authorization_header and
                 isinstance(decoded_base64_authorization_header, str) and
