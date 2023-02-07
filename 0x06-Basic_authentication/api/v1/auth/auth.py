@@ -9,7 +9,7 @@ class Auth:
     '''Auth'''
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        '''require auth'''
+        '''require_auth'''
         if not path or not excluded_paths:
             return True
 
