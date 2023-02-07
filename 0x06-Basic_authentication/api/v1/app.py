@@ -22,11 +22,10 @@ elif getenv("AUTH_TYPE") == "basic_auth":
     auth = BasicAuth()
 
 
-@app.errorhandler(404)
-def not_found(error) -> str:
-    """ Not found handler
-    """
-    return jsonify({"error": "Not found"}), 404
+@app.errorhandler(403)
+def forbidden(error) -> str:
+    """ Forbidden handler """
+    return jsonify({"error": "Forbidden"}), 403
 
 
 @app.errorhandler(401)
@@ -36,16 +35,9 @@ def unauthorized(error) -> str:
     return jsonify({"error": "Unauthorized"}), 401
 
 
-@app.errorhandler(403)
-def forbidden(error) -> str:
-    """ Forbidden handler
-    """
-    return jsonify({"error": "Forbidden"}), 403
-
-
 @app.before_request
 def before_request():
-    ''' '''
+    '''before request'''
     blacklist = ['/api/v1/status/', '/api/v1/unauthorized/',
                  '/api/v1/forbidden/']
 
@@ -54,6 +46,13 @@ def before_request():
             abort(401)
         if not auth.current_user(request):
             abort(403)
+
+
+@app.errorhandler(404)
+def not_found(error) -> str:
+    """ Not found handler
+    """
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":

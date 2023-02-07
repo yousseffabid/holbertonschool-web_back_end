@@ -9,11 +9,11 @@ import binascii
 
 
 class BasicAuth(Auth):
-    ''' '''
+    '''BasicAuth'''
 
     def extract_base64_authorization_header(
             self, authorization_header: str) -> str:
-        ''' '''
+        '''extract_base64_authorization_header'''
         if authorization_header and isinstance(
                 authorization_header,
                 str) and authorization_header.startswith("Basic "):
@@ -21,7 +21,7 @@ class BasicAuth(Auth):
 
     def decode_base64_authorization_header(
             self, base64_auth_header: str) -> str:
-        ''' '''
+        '''decode_base64_authorization_header'''
         if base64_auth_header and isinstance(
                 base64_auth_header, str):
             try:
@@ -32,8 +32,8 @@ class BasicAuth(Auth):
                 return None
 
     def extract_user_credentials(
-            self, decoded_base64_authorization_header: str):
-        ''' '''
+            self, decoded_base64_authorization_header: str) -> (str, str):
+        '''extract_user_credentials'''
         if (decoded_base64_authorization_header and
                 isinstance(decoded_base64_authorization_header, str) and
                 ":" in decoded_base64_authorization_header):
@@ -43,7 +43,7 @@ class BasicAuth(Auth):
 
     def user_object_from_credentials(self, user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
-        ''' '''
+        '''user_object_from_credentials'''
         if user_email is None or not isinstance(user_email, str):
             return None
 
@@ -61,7 +61,7 @@ class BasicAuth(Auth):
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
-        ''' '''
+        '''current_user'''
         auth_header = self.authorization_header(request)
         base64_sha = self.extract_base64_authorization_header(auth_header)
         decoded_sha = self.decode_base64_authorization_header(base64_sha)
