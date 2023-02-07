@@ -30,13 +30,12 @@ def forbidden(error) -> str:
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """ Unauthorized handler
-    """
+    """ Unauthorized handler """
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.before_request
-def before_request():
+def before_request() -> str:
     '''before request'''
     blacklist = ['/api/v1/status/', '/api/v1/unauthorized/',
                  '/api/v1/forbidden/']
@@ -50,8 +49,7 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
-    """
+    """ Not found handler """
     return jsonify({"error": "Not found"}), 404
 
 
