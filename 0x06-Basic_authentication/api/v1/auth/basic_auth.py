@@ -32,7 +32,7 @@ class BasicAuth(Auth):
                 return None
 
     def extract_user_credentials(
-            self, decoded_base64_authorization_header: str) -> Tuple(str, str):
+            self, decoded_base64_authorization_header: str) -> Tuple[str]:
         '''extract_user_credentials'''
         if (decoded_base64_authorization_header and
                 isinstance(decoded_base64_authorization_header, str) and
