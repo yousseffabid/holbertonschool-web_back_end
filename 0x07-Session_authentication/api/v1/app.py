@@ -28,7 +28,7 @@ elif getenv('AUTH_TYPE') == 'session_exp_auth':
 
 @app.before_request
 def before_request():
-    """execute before each request
+    """ execute before each request
     """
     if auth is not None:
         api_list = ['/api/v1/status/',
