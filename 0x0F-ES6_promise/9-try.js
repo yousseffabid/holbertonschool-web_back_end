@@ -1,4 +1,4 @@
-const guardrail = (mathFunction) => {
+export default function guardrail(mathFunction) {
     const queue = [];
     try {
         queue.push(mathFunction());
@@ -9,5 +9,3 @@ const guardrail = (mathFunction) => {
     }
     return queue;
 };
-
-export default guardrail;
