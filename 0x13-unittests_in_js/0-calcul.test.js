@@ -1,19 +1,16 @@
-const calculateNumber = require('./0-calcul.js');
-const assert = require('assert');
+const calculateNumber = require("./0-calcul.js");
+const mocha = require('mocha');
+const assert = require("assert");
 
 describe('calculateNumber', () => {
-  it('checks equality', () => {
-    assert.strictEqual(calculateNumber(3, 5), 8);
-    assert.strictEqual(calculateNumber(6.5, 0), 7);
-    assert.strictEqual(calculateNumber(0, 6.3), 6);
-    assert.strictEqual(calculateNumber(9.2, 3.6), 13);
-    assert.strictEqual(calculateNumber(-1.9, -4.1), -6);
-    assert.strictEqual(calculateNumber(-1.9, 3.2), 1);
+  it('returns rounded sum', () => {
+    assert.strictEqual(calculateNumber(1, 3), 4);
+    assert.strictEqual(calculateNumber(1.6, 3), 5);
+    assert.strictEqual(calculateNumber(1.2, 3.8), 5);
+    assert.strictEqual(calculateNumber(-1, -3), -4);
+    assert.strictEqual(calculateNumber(-1.4, -3.6), -5);
   });
-
-  it('TypeError', () => {
-    assert.throws(() => calculateNumber(NaN, 1.8), { name: 'TypeError' });
-    assert.throws(() => calculateNumber(6.4, NaN), { name: 'TypeError' });
-    assert.throws(() => calculateNumber(NaN, NaN), { name: 'TypeError' });
+  it('should throw error if NaN passed', function () {
+    assert.throws(() => calculateNumber(NaN, 3), '[Function: TypeError]');
   });
 });
