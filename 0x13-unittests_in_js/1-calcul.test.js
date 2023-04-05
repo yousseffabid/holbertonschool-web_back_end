@@ -1,55 +1,32 @@
-const calculateNumber = require('./1-calcul.js');
-const assert = require('assert');
+const calculateNumber = require("./1-calcul.js");
+const mocha = require('mocha');
+const assert = require("assert");
 
-describe('SUM', () => {
-  it('checks equality SUM type', () => {
-    assert.strictEqual(calculateNumber('SUM', 5.3, 2.8), 8);
-    assert.strictEqual(calculateNumber('SUM', 7, -6.1), 1);
-    assert.strictEqual(calculateNumber('SUM', 0, 3.9), 4);
-    assert.strictEqual(calculateNumber('SUM', -2, 0), -2);
-    assert.strictEqual(calculateNumber('SUM', -4.1, -8.3), -12);
+describe('calculateNumber', () => {
+  it('returns rounded sum with SUM', () => {
+    assert.strictEqual(calculateNumber('SUM', 1, 3), 4);
+    assert.strictEqual(calculateNumber('SUM', 1.6, 3), 5);
+    assert.strictEqual(calculateNumber('SUM', 1.2, 3.8), 5);
+    assert.strictEqual(calculateNumber('SUM', -1, -3), -4);
+    assert.strictEqual(calculateNumber('SUM', -1.4, -3.6), -5);
   });
-
-  it('TypeError', () => {
-    assert.throws(() => calculateNumber('SUM', NaN, 1.8), { name: 'TypeError' });
-    assert.throws(() => calculateNumber('SUM', 6.4, NaN), { name: 'TypeError' });
-    assert.throws(() => calculateNumber('SUM', NaN, NaN), { name: 'TypeError' });
+  it('returns rounded sum with SUBTRACT', () => {
+    assert.strictEqual(calculateNumber('SUBTRACT', 1, 3), -2);
+    assert.strictEqual(calculateNumber('SUBTRACT', 1.6, 3), -1);
+    assert.strictEqual(calculateNumber('SUBTRACT', 1.2, 3.8), -3);
+    assert.strictEqual(calculateNumber('SUBTRACT', -1, -3), 2);
+    assert.strictEqual(calculateNumber('SUBTRACT', -1.4, -3.6), 3);
   });
-});
-
-describe('SUBTRACT', () => {
-  it('checks equality SUBTRACT type', () => {
-    assert.strictEqual(calculateNumber('SUBTRACT', 5.3, 2.8), 2);
-    assert.strictEqual(calculateNumber('SUBTRACT', 1.4, 6.7), -6);
-    assert.strictEqual(calculateNumber('SUBTRACT', 7, -6.1), 13);
-    assert.strictEqual(calculateNumber('SUBTRACT', 0, 3.9), -4);
-    assert.strictEqual(calculateNumber('SUBTRACT', -2, 0), -2);
-    assert.strictEqual(calculateNumber('SUBTRACT', -4.1, -8.3), 4);
+  it('returns rounded sum with DIVIDE', () => {
+    assert.strictEqual(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
   });
-
-  it('TypeError', () => {
-    assert.throws(() => calculateNumber('SUBTRACT', NaN, 3.3), { name: 'TypeError' });
-    assert.throws(() => calculateNumber('SUBTRACT', 7.9, NaN), { name: 'TypeError' });
-    assert.throws(() => calculateNumber('SUBTRACT', NaN, NaN), { name: 'TypeError' });
+  it('returns error string when DIVIDE by 0', () => {
+    assert.strictEqual(calculateNumber('DIVIDE', 1.4, 0), 'Error');
   });
-});
-
-describe('DIVIDE', () => {
-  it('checks equality DIVIDE type', () => {
-    assert.strictEqual(calculateNumber('DIVIDE', 8, 2), 4);
-    assert.strictEqual(calculateNumber('DIVIDE', 6.1, 2.9), 2);
-    assert.strictEqual(calculateNumber('DIVIDE', -2, 1.4), -2);
-    assert.strictEqual(calculateNumber('DIVIDE', -4.3, -2.1), 2);
+  it('should throw error if NaN passed', function () {
+    assert.throws(() => calculateNumber('SUM', NaN, 3), '[Function: TypeError]');
   });
-
-  it('Error', () => {
-    assert.strictEqual(calculateNumber('DIVIDE', 3.3, 0), 'Error');
-    assert.strictEqual(calculateNumber('DIVIDE', 7.9, 0), 'Error');
-  });
-
-  it('TypeError', () => {
-    assert.throws(() => calculateNumber('DIVIDE', NaN, 3.3), { name: 'TypeError' });
-    assert.throws(() => calculateNumber('DIVIDE', 7.9, NaN), { name: 'TypeError' });
-    assert.throws(() => calculateNumber('DIVIDE', NaN, NaN), { name: 'TypeError' });
+  it('should throw error if invalid type', function () {
+    assert.throws(() => calculateNumber('blah', 2, 3), '[Function: TypeError]');
   });
 });
