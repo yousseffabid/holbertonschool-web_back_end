@@ -1,12 +1,17 @@
-const expect = require('chai').expect;
-const getPaymentTokenFromAPI = require('./6-payment_token.js');
+const { expect, assert } = require('chai');
+const sinon = require('sinon');
 
-describe('getPaymentTokenFromAPI function', () => {
-  it('async testing Promise', (done) => {
+const getPaymentTokenFromAPI = require('./6-payment_token');
+
+describe('getPaymentTokenFromAPI', () => {
+  it('promise response from API should resolve', (done) => {
     getPaymentTokenFromAPI(true)
-      .then((res) => {
-        expect(res).to.eql({ data: 'Successful response from the API' })
+      .then((response) => {
+        expect(response).to.eql({ data: 'Successful response from the API' });
+        done();
       })
-    done();
-  })
-})
+      .catch((err) => {
+        done(err);
+      });
+  });
+});

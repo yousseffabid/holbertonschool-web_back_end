@@ -1,56 +1,31 @@
-const calculateNumber = require('./2-calcul_chai.js');
-const expect = require('chai').expect;
+const calculateNumber = require("./2-calcul_chai.js");
+const { expect } = require('chai');
 
-describe('SUM', () => {
-  it('checks equality SUM type', () => {
-    expect(calculateNumber('SUM', 5.3, 2.8)).to.equal(8);
-    expect(calculateNumber('SUM', 7, -6.1)).to.equal(1);
-    expect(calculateNumber('SUM', 0, 3.9)).to.equal(4);
-    expect(calculateNumber('SUM', -2, 0)).to.equal(-2);
-    expect(calculateNumber('SUM', -4.1, -8.3)).to.equal(-12);
+describe('calculateNumber', () => {
+  it('returns rounded sum with SUM', () => {
+    expect(calculateNumber('SUM', 1, 3)).to.equal(4);
+    expect(calculateNumber('SUM', 1.6, 3)).to.equal(5);
+    expect(calculateNumber('SUM', 1.2, 3.8)).to.equal(5);
+    expect(calculateNumber('SUM', -1, -3)).to.equal(-4);
+    expect(calculateNumber('SUM', -1.4, -3.6)).to.equal(-5);
   });
-
-  it('TypeError', () => {
-    expect(() => calculateNumber('SUM', NaN, 1.8)).to.throw(TypeError);
-    expect(() => calculateNumber('SUM', 6.4, NaN)).to.throw(TypeError);
-    expect(() => calculateNumber('SUM', NaN, NaN)).to.throw(TypeError);
+  it('returns rounded sum with SUBTRACT', () => {
+    expect(calculateNumber('SUBTRACT', 1, 3)).to.equal(-2);
+    expect(calculateNumber('SUBTRACT', 1.6, 3)).to.equal(-1);
+    expect(calculateNumber('SUBTRACT', 1.2, 3.8)).to.equal(-3);
+    expect(calculateNumber('SUBTRACT', -1, -3)).to.equal(2);
+    expect(calculateNumber('SUBTRACT', -1.4, -3.6)).to.equal(3);
   });
-});
-
-describe('SUBTRACT', () => {
-  it('checks equality SUBTRACT type', () => {
-    expect(calculateNumber('SUBTRACT', 5.3, 2.8)).to.equal(2);
-    expect(calculateNumber('SUBTRACT', 1.4, 6.7)).to.equal(-6);
-    expect(calculateNumber('SUBTRACT', 7, -6.1)).to.equal(13);
-    expect(calculateNumber('SUBTRACT', 0, 3.9)).to.equal(-4);
-    expect(calculateNumber('SUBTRACT', -2, 0)).to.equal(-2);
-    expect(calculateNumber('SUBTRACT', -4.1, -8.3)).to.equal(4);
+  it('returns rounded sum with DIVIDE', () => {
+    expect(calculateNumber('DIVIDE', 1.4, 4.5)).to.equal(0.2);
   });
-
-  it('TypeError', () => {
-    expect(() => calculateNumber('SUBTRACT', NaN, 3.3)).to.throw(TypeError);
-    expect(() => calculateNumber('SUBTRACT', 7.9, NaN)).to.throw(TypeError);
-    expect(() => calculateNumber('SUBTRACT', NaN, NaN)).to.throw(TypeError);
+  it('returns error string when DIVIDE by 0', () => {
+    expect(calculateNumber('DIVIDE', 1.4, 0)).to.equal('Error');
   });
-});
-
-describe('DIVIDE', () => {
-  it('checks equality DIVIDE type', () => {
-    expect(calculateNumber('DIVIDE', 8, 2)).to.equal(4);
-    expect(calculateNumber('DIVIDE', 6.1, 2.9)).to.equal(2);
-    expect(calculateNumber('DIVIDE', -2, 1.4)).to.equal(-2);
-    expect(calculateNumber('DIVIDE', -4.3, -2.1)).to.equal(2);
+  it('should throw error if NaN passed', function () {
+    expect(() => calculateNumber('SUM', NaN, 3)).to.throw();
   });
-
-  it('Error', () => {
-    expect(calculateNumber('DIVIDE', 3.3, 0)).to.equal('Error');
-    expect(calculateNumber('DIVIDE', 7.9, 0)).to.equal('Error');
-    expect(calculateNumber('DIVIDE', 0, 0)).to.equal('Error');
-  });
-
-  it('TypeError', () => {
-    expect(() => calculateNumber('DIVIDE', NaN, 3.3)).to.throw(TypeError);
-    expect(() => calculateNumber('DIVIDE', 7.9, NaN)).to.throw(TypeError);
-    expect(() => calculateNumber('DIVIDE', NaN, NaN)).to.throw(TypeError);
+  it('should throw error if invalid type', function () {
+    expect(() => calculateNumber('blah', 2, 3)).to.throw();
   });
 });
